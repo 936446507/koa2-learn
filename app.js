@@ -6,6 +6,8 @@ const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const cors = require('koa2-cors')
+const Sequelize = require('sequelize');
+const model = require('./hanleModel');
 
 const responseFormat = require('./middlewares/responseFormat');
 const index = require('./routes/index')
@@ -19,12 +21,33 @@ app.use(cors({
   allowMethods: ['GET', 'POST', 'OPTIONS'],
   allowHeaders: ['Content-Type', 'Authorization', 'Accept', 'X-Custom-Header', 'anonymous'],
 }));
+
+// const Pet = sequelize.define('pet', {
+//   id: {
+//     type: Sequelize.STRING(50),
+//     primaryKey: true
+//   },
+//   name: Sequelize.STRING(100),
+//   gender: Sequelize.BOOLEAN
+// }, {
+//   timestamps: false
+// });
+
+// ;(async () => {
+//   const dog = await Pet.create({
+//     id: '1',
+//     name: 'dog',
+//     gender: false
+//   })
+//   console.log(dog);
+// })();
+
 // error handler
 onerror(app)
 
 // middlewares
 app.use(bodyparser({
-  enableTypes:['json', 'form', 'text']
+  enableTypes: ['json', 'form', 'text']
 }))
 app.use(json())
 app.use(logger())

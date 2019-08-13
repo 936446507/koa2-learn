@@ -1,0 +1,8 @@
+{
+  "indent_size": 2,
+  "indent_inner_html": true,
+  "newline_between_rules": true,
+  "selector_separator_newline": true,
+  "space_after_anon_function": false,
+  "space_after_named_function": false
+}
