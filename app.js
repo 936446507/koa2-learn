@@ -1,17 +1,18 @@
-const Koa = require('koa')
-const app = new Koa()
-const views = require('koa-views')
-const json = require('koa-json')
-const onerror = require('koa-onerror')
-const bodyparser = require('koa-bodyparser')
-const logger = require('koa-logger')
-const cors = require('koa2-cors')
-const Sequelize = require('sequelize');
-const model = require('./hanleModel');
+const Koa = require('koa');
+const app = new Koa();
+const views = require('koa-views');
+const json = require('koa-json');
+const onerror = require('koa-onerror');
+const bodyparser = require('koa-bodyparser');
+const logger = require('koa-logger');
+const cors = require('koa2-cors');
+const session = require('koa-session-minimal')
+const MysqlStore = require('koa-mysql-session')
 
 const responseFormat = require('./middlewares/responseFormat');
-const index = require('./routes/index')
-const users = require('./routes/users')
+const interceptors = require('./middlewares/interceptors');
+const index = require('./routes/index');
+const user = require('./routes/user');
 
 // 处理跨域的配置
 app.use(cors({
@@ -22,25 +23,6 @@ app.use(cors({
   allowHeaders: ['Content-Type', 'Authorization', 'Accept', 'X-Custom-Header', 'anonymous'],
 }));
 
-// const Pet = sequelize.define('pet', {
-//   id: {
-//     type: Sequelize.STRING(50),
-//     primaryKey: true
-//   },
-//   name: Sequelize.STRING(100),
-//   gender: Sequelize.BOOLEAN
-// }, {
-//   timestamps: false
-// });
-
-// ;(async () => {
-//   const dog = await Pet.create({
-//     id: '1',
-//     name: 'dog',
-//     gender: false
-//   })
-//   console.log(dog);
-// })();
 
 // error handler
 onerror(app)
@@ -64,10 +46,12 @@ app.use(async (ctx, next) => {
   const ms = new Date() - start
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
+
 app.use(responseFormat);
+app.use(interceptors);
 // routes
 app.use(index.routes(), index.allowedMethods())
-app.use(users.routes(), users.allowedMethods())
+app.use(user.routes(), user.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {

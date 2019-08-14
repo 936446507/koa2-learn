@@ -1,9 +1,5 @@
-const config =  {
-  database: 'koa2', // 使用哪个数据库
-  username: 'root', // 用户名
-  password: '', // 口令
-  host: 'localhost', // 主机名
-  port: 3306 // 端口号，MySQL默认3306
-};
-
-module.exports = config;
+// user
+exports.NO_LOGIN = 1001;
+exports.NAME_REGISTERED = 1002;
+exports.NAME_NO_EXIST = 1003;
+exports.PASSWORD_ERROR = 1004;
