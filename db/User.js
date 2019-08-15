@@ -1,4 +1,4 @@
-const model = require('../hanleModel');
+const model = require('../handleModel');
 const config = require('../config');
 
 class User {
@@ -21,10 +21,9 @@ class User {
         error_message: '密码错误'
       }
     }
-
     return {
-      error_code: 0,
-      body: queryLoginData
+      error_code: config.SUCCESS,
+      body: queryLoginData.dataValues
     };
   }
   async register(params = {}) {
@@ -40,7 +39,7 @@ class User {
 
     const userData = await this.create(params);
     return {
-      error_code: 0,
+      error_code: config.SUCCESS,
       body: userData
     };
   }

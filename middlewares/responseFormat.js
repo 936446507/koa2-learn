@@ -2,7 +2,6 @@
  * 在app.use(router)之前调用
  */
 const responseFormat = async (ctx, next) => {
-  //先去执行路由
   await next();
   const {
     error_code,

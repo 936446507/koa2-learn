@@ -13,4 +13,5 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
   dialect: 'mysql'
 });
 
-module.exports = sequelize;
+exports.config = config;
+exports.sequelize = sequelize;

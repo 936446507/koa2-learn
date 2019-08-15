@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const sequelize = require('./connect');
+const { sequelize } = require('./connect');
 
 const user = 'takashi';
 

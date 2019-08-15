@@ -1,18 +1,7 @@
 const router = require('koa-router')()
 const {
   Pet
-} = require('../hanleModel')
-
-router.get('/', async (ctx, next) => {
-  const {
-    request
-  } = ctx
-  ctx.error_code = 0;
-  ctx.body = {
-    query: request.query,
-    querystring: request.querystring
-  };
-})
+} = require('../handleModel')
 
 router.get('/create', async (ctx, next) => {
   const {
@@ -27,7 +16,7 @@ router.get('/create', async (ctx, next) => {
   ctx.error_code = 0;
   ctx.body = {
     ...data.dataValues,
-    ...request.body
+    ...request.body,
   }
 })
 
@@ -39,12 +28,6 @@ router.get('/find', async (ctx, next) => {
 
   ctx.error_code = 0;
   ctx.body = data;
-})
-
-router.get('/json', async (ctx, next) => {
-  ctx.body = {
-    title: 'koa2 json'
-  }
 })
 
 module.exports = router

@@ -6,13 +6,13 @@ const onerror = require('koa-onerror');
 const bodyparser = require('koa-bodyparser');
 const logger = require('koa-logger');
 const cors = require('koa2-cors');
-const session = require('koa-session-minimal')
-const MysqlStore = require('koa-mysql-session')
+const session = require('koa-session-minimal');
+const MysqlStore = require('koa-mysql-session');
 
+const { config } = require('./db/connect');
 const responseFormat = require('./middlewares/responseFormat');
 const interceptors = require('./middlewares/interceptors');
-const index = require('./routes/index');
-const user = require('./routes/user');
+const routes = require('./handleRoutes');
 
 // 处理跨域的配置
 app.use(cors({
@@ -23,21 +23,40 @@ app.use(cors({
   allowHeaders: ['Content-Type', 'Authorization', 'Accept', 'X-Custom-Header', 'anonymous'],
 }));
 
+// session
+const sessionMysqlConfig= {
+  user: config.username,
+  password: config.password,
+  database: config.database,
+  host: config.host,
+}
+app.use(session({
+  key: 'USER_SID',
+  cookie: {
+    domain: 'localhost',
+    path: '/',
+    maxAge: 1000 * 3000,
+    httpOnly: true,
+    overwrite: false
+  },
+  store: new MysqlStore(sessionMysqlConfig)
+}))
+
 
 // error handler
-onerror(app)
+onerror(app);
 
 // middlewares
 app.use(bodyparser({
   enableTypes: ['json', 'form', 'text']
 }))
-app.use(json())
-app.use(logger())
-app.use(require('koa-static')(__dirname + '/public'))
+app.use(json());
+app.use(logger());
+app.use(require('koa-static')(__dirname + '/public'));
 
 app.use(views(__dirname + '/views', {
   extension: 'pug'
-}))
+}));
 
 // logger
 app.use(async (ctx, next) => {
@@ -45,17 +64,18 @@ app.use(async (ctx, next) => {
   await next()
   const ms = new Date() - start
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
-})
+});
 
 app.use(responseFormat);
 app.use(interceptors);
 // routes
-app.use(index.routes(), index.allowedMethods())
-app.use(user.routes(), user.allowedMethods())
+routes.forEach(route => {
+  app.use(...route)
+})
 
 // error-handling
 app.on('error', (err, ctx) => {
-  console.error('server error', err, ctx)
+  console.error('server error', err, ctx);
 });
 
 module.exports = app
