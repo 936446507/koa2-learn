@@ -1,5 +1,5 @@
 const router = require('koa-router')()
-const config = require('../config');
+const config = require('../public/javascripts/config');
 
 router.all('*', async (ctx, next) => {
   ctx.error_code = config.ERROR_REQUEST;

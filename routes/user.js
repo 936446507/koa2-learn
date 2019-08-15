@@ -1,6 +1,7 @@
 const router = require('koa-router')()
 const User = require('../db/User');
-const config = require('../config');
+const config = require('../public/javascripts/config');
+const Validator = require('../public/javascripts/Validator');
 
 const user = new User({});
 
