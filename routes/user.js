@@ -22,7 +22,7 @@ router.get('/login', async (ctx, next) => {
   Object.assign(ctx, data);
 })
 
-router.post('/register', async (ctx, next) => {
+router.get('/register', async (ctx, next) => {
   const {
     name,
     password,
