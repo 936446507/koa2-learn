@@ -1,5 +1,6 @@
 exports.SUCCESS = 0;
-exports.ERROR_REQUEST = 1001;
+exports.REQUEST_ERROR = 1001;
+exports.EMPTY_ERROR = 1002;
 // user
 exports.NO_LOGIN = 1010;
 exports.NAME_REGISTERED = 1011;

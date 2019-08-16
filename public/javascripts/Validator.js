@@ -6,18 +6,18 @@ class Validator {
     this.cache = [];
   }
   add({self, value, rules}) {
-    for (let rule of rules) {
+    rules.forEach((rule, index) => {
       const strategyArr = rule.strategy.split(':');
       const errorCode = rule.errorCode;
       const errorMessage = rule.errorMessage;
-      this.cache.push(() => {
+      this.cache[index] = () => {
         const strategy = strategyArr.shift();
         strategyArr.unshift(value);
         strategyArr.push({errorCode, errorMessage});
-        console.log(value, this.strategies[strategy], this.strategies[strategy].apply)
-        return this.strategies[strategy].apply(self, strategyArr)
-      })
-    }
+
+        return this.strategies[strategy].apply(self, strategyArr);
+      }
+    })
   }
   start() {
     for (let validatorFunc of this.cache) {

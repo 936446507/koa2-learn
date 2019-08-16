@@ -6,24 +6,37 @@ const Validator = require('../public/javascripts/Validator');
 
 const strategies = {
   ...commonStrategies,
-   async isExistName(value, error) {
-    const data = await this.query({name: value});
-    if (!data) {
-      return error
+  async isExistName(value, error) {
+    if (!this.userData) {
+      this.userData = await this.query({name: value});
     }
+
+    if (!this.userData) return error;
+  },
+  async isCheckPassword(name, password, error) {
+    if (!this.userData) {
+      this.userData = await this.query({name});
+    }
+    const isCheckPassword = bcrypt.decrypt(password, this.userData.password);
+    if (!isCheckPassword) return error;
   }
 }
-const getNameRules = ((self, value) => ({ self, value,
+const getNameRules = ((self, value, password) => ({ self, value,
   rules: [
     {
       strategy: 'isEmpty',
-      errorCode: 1002,
-      erroMessage: '用户名为空'
+      errorCode: config.EMPTY_ERROR,
+      errorMessage: '用户名为空'
     },
     {
       strategy: 'isExistName',
       errorCode: config.NAME_NO_EXIST,
-      erroMessage: '用户名不存在'
+      errorMessage: '用户名不存在'
+    },
+    {
+      strategy: `isCheckPassword:${password}`,
+      errorCode: config.PASSWORD_ERROR,
+      errorMessage: '密码错误'
     }
   ]
 }))
@@ -31,38 +44,28 @@ const getNameRules = ((self, value) => ({ self, value,
 const validator = new Validator(strategies);
 
 class User {
-  constructor() {}
+  constructor() {
+    this.userData = null;
+  }
   async login(params = {}) {
     this.updateData(params);
     const { name, password } = params;
     const self = this;
-    const rules = [
-      getNameRules(self, name)
-    ]
-    validator.batchAdd(rules);
 
-    const info = validator.start();
-    // console.log(info);
-    const data = await this.query({name});
+    validator.batchAdd([ getNameRules(self, name, password) ]);
 
-    if (!data) {
+    const info = await validator.start();
+    if (info) {
       return {
-        error_code: config.NAME_NO_EXIST,
-        error_message: '用户名不存在'
+        error_code: info.errorCode,
+        error_message: info.errorMessage
       }
     }
-    const isCheckPassword = bcrypt.decrypt(password, data.password);
-    if (!isCheckPassword) {
-      return {
-        error_code: config.PASSWORD_ERROR,
-        error_message: '密码错误'
-      }
-    }
+
     return {
       error_code: config.SUCCESS,
       body: {
-        name: data.dataValues.name,
-        rules
+        name: this.userData.name
       }
     };
   }
@@ -97,5 +100,7 @@ class User {
     Object.assign(this, params);
   }
 }
+const user = new User()
+user.login({ name: 'name3', password: 'password' });
 
 module.exports = User;

@@ -1,8 +1,6 @@
 const commonStrategies = {
   isEmpty(value, error) {
-    if (!value) {
-      return error;
-    }
+    if (!value) return error;
   }
 }
 
