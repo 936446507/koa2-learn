@@ -88,9 +88,9 @@ class User {
     };
   }
 
-  query(queryContion) {
+  query(queryCondition) {
     return model.User.findOne({
-      where: queryContion
+      where: queryCondition
     })
   }
   create(params) {
@@ -100,7 +100,5 @@ class User {
     Object.assign(this, params);
   }
 }
-const user = new User()
-user.login({ name: 'name3', password: 'password' });
 
 module.exports = User;
