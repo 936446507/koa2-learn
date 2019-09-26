@@ -8,7 +8,7 @@ const Pet = defineModel('user', {
     allowNull: false,
     autoIncrement: true
   },
-  name: Sequelize.STRING(100),
+  username: Sequelize.STRING(100),
   email: Sequelize.STRING(100),
   password: Sequelize.STRING(100),
   gender: Sequelize.BOOLEAN

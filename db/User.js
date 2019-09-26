@@ -8,14 +8,14 @@ const strategies = {
   ...commonStrategies,
   async isExistName(value, error) {
     if (!this.userData) {
-      this.userData = await this.query({name: value});
+      this.userData = await this.query({username: value});
     }
 
     if (!this.userData) return error;
   },
-  async isCheckPassword(name, password, error) {
+  async isCheckPassword(username, password, error) {
     if (!this.userData) {
-      this.userData = await this.query({name});
+      this.userData = await this.query({username});
     }
     const isCheckPassword = bcrypt.decrypt(password, this.userData.password);
     if (!isCheckPassword) return error;
@@ -49,10 +49,10 @@ class User {
   }
   async login(params = {}) {
     this.updateData(params);
-    const { name, password } = params;
+    const { username, password } = params;
     const self = this;
 
-    validator.batchAdd([ getNameRules(self, name, password) ]);
+    validator.batchAdd([ getNameRules(self, username, password) ]);
 
     const info = await validator.start();
     if (info) {
@@ -65,15 +65,15 @@ class User {
     return {
       error_code: config.SUCCESS,
       body: {
-        name: this.userData.name
+        username: this.userData.username
       }
     };
   }
 
   async register(params = {}) {
     this.updateData(params);
-    const { name } = params;
-    const data = await this.query({name});
+    const { username } = params;
+    const data = await this.query({username});
     if (data) {
       return {
         error_code: config.NAME_REGISTERED,

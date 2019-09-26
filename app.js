@@ -9,6 +9,11 @@ const cors = require('koa2-cors');
 const session = require('koa-session-minimal');
 const MysqlStore = require('koa-mysql-session');
 
+// 项目根路径
+const process = require('process');
+const rootPath = process.cwd();
+!global.__rootpath && (global.__rootpath = rootPath);
+
 const { config } = require('./db/connect');
 const responseFormat = require('./middlewares/responseFormat');
 const interceptors = require('./middlewares/interceptors');
@@ -78,4 +83,4 @@ app.on('error', (err, ctx) => {
   console.error('server error', err, ctx);
 });
 
-module.exports = app
+module.exports = app;
