@@ -5,28 +5,43 @@ class Validator {
     this.strategies = strategies;
     this.cache = [];
   }
-  add({self, value, rules}) {
+  add({ self, rules }) {
+
     rules.forEach((rule, index) => {
-      const strategyArr = rule.strategy.split(':');
-      const errorCode = rule.errorCode;
-      const errorMessage = rule.errorMessage;
+      const {
+        strategy,
+        errorCode,
+        errorMessage
+      } = rule;
       this.cache[index] = () => {
-        const strategy = strategyArr.shift();
-        strategyArr.unshift(value);
-        strategyArr.push({errorCode, errorMessage});
-
-        return this.strategies[strategy].apply(self, strategyArr);
+        const params = {
+          ...this.getParams(rule, ['strategy', 'errorCode', 'errorMessage']),
+          error: { errorCode, errorMessage }
+        }
+        return this.strategies[strategy].call(self, params);
       }
-    })
+    });
   }
-  start() {
-    for (let validatorFunc of this.cache) {
-      const info = validatorFunc();
-
-      if (info && info.errorCode !== config.SUCCESS) {
-        return info;
+  getParams(params = {}, excludeParams = []) {
+    const obj = {};
+    for (let key in params) {
+      if (!excludeParams.includes(key)) {
+        obj[key] = params[key];
       }
     }
+
+    return obj;
+  }
+  start() {
+    return new Promise(async (resolve, reject) => {
+      for (let validatorFunc of this.cache) {
+        const info = await validatorFunc();
+        if (info && info.errorCode !== config.SUCCESS) {
+          resolve(info);
+        }
+      }
+      resolve();
+    })
   }
   batchAdd(strategies) {
     for (let strategy of strategies) {
