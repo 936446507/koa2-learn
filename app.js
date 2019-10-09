@@ -29,7 +29,7 @@ app.use(cors({
 }));
 
 // session
-const sessionMysqlConfig= {
+const sessionMysqlConfig = {
   user: config.username,
   password: config.password,
   database: config.database,

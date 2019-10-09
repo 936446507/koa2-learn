@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize');
 const defineModel = require('../db/defineModel');
 
-const Pet = defineModel('user', {
+const User = defineModel('user', {
   id: {
     type: Sequelize.BIGINT(11),
     primaryKey: true,
@@ -12,5 +12,6 @@ const Pet = defineModel('user', {
   email: Sequelize.STRING(100),
   password: Sequelize.STRING(100),
   gender: Sequelize.BOOLEAN
-})
-module.exports = Pet;
+});
+
+module.exports = User;

@@ -26,7 +26,7 @@ const defineModel = function(name, attributes) {
       defaultValue: Date.now()
     }
   }
-  const attrs = Object.assign({}, defaultAttr, attributes);
+  const attrs = Object.assign({}, attributes, defaultAttr);
 
   return sequelize.define(name, attrs, {
     timestamps: false,
