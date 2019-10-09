@@ -4,6 +4,7 @@
 :-:|:-:|:-:|:-:
 /user/login|POST|登录|Takashi
 /user/register|POST|注册|Takashi
+/user/exit|POST|退出|Takashi
 /user/info|GET|用户信息|Takashi
 /user/sign|POST|打卡|Takashi
 

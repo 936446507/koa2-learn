@@ -7,7 +7,7 @@ const interceptors = async (ctx, next) => {
   const isAllow = allowApis.some(api => url.includes(api));
   const session = ctx.session;
 
-  if (!isAllow && (!session.user || !session.user.is_login)) {
+  if (!isAllow && !session.user) {
     ctx.error_code = config.NO_LOGIN;
     ctx.error_message = 'no login!';
   } else {

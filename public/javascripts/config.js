@@ -4,6 +4,8 @@ exports.SUCCESS = 0;
 exports.REQUEST_ERROR = 1001;
 // 参数为空错误
 exports.EMPTY_ERROR = 1002;
+// 数据库库查询错误
+exports.SQL_QUERY_ERROR = 1003;
 
 // user
 exports.NO_LOGIN = 1010;

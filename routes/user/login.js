@@ -13,8 +13,8 @@ router.post('/login', async (ctx, next) => {
   const session = ctx.session;
 
   if (data.error_code === config.SUCCESS) {
-    const { id, username } = data.body
-    session.user = { id, username }
+    const { username } = data.body
+    session.user = { username }
   }
   Object.assign(ctx, data);
 })
