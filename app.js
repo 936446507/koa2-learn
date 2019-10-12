@@ -18,6 +18,7 @@ const { config } = require('./db/connect');
 const responseFormat = require('./middlewares/responseFormat');
 const interceptors = require('./middlewares/interceptors');
 const routes = require('./handleRoutes');
+const apiDocs = require('./handleApiDocRoutes');
 
 // 处理跨域的配置
 app.use(cors({
@@ -70,6 +71,10 @@ app.use(async (ctx, next) => {
   const ms = new Date() - start
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 });
+apiDocs.forEach(apiDoc => {
+  app.use(...apiDoc);
+})
+// app.use(apiDocs.routes(), apiDocs.allowedMethods());
 
 app.use(responseFormat);
 app.use(interceptors);
