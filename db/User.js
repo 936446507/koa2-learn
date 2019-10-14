@@ -1,8 +1,8 @@
-const model = require(__rootpath + '/handleModel');
-const config = require(__rootpath + '/public/javascripts/config');
-const bcrypt = require(__rootpath + '/public/javascripts/bcrypt');
-const commonStrategies = require(__rootpath + '/public/javascripts/commonStrategies');
-const Validator = require(__rootpath + '/public/javascripts/Validator');
+const model = require(__rootPath + '/handleModel');
+const config = require(__rootPath + '/public/javascripts/config');
+const bcrypt = require(__rootPath + '/public/javascripts/bcrypt');
+const commonStrategies = require(__rootPath + '/public/javascripts/commonStrategies');
+const Validator = require(__rootPath + '/public/javascripts/Validator');
 // 校验策略
 const strategies = {
   ...commonStrategies,

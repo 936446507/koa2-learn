@@ -1,5 +1,5 @@
 const router = require('koa-router')();
-const config = require(__rootpath +  '/public/javascripts/config');
+const config = require(__rootPath +  '/public/javascripts/config');
 
 router.prefix('/user');
 

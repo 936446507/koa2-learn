@@ -12,7 +12,7 @@ const MysqlStore = require('koa-mysql-session');
 // 项目根路径
 const process = require('process');
 const rootPath = process.cwd();
-!global.__rootpath && (global.__rootpath = rootPath);
+!global.__rootPath && (global.__rootPath = rootPath);
 
 const { config } = require('./db/connect');
 const responseFormat = require('./middlewares/responseFormat');

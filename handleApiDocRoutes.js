@@ -4,8 +4,8 @@ const marked = require('marked');
 
 const apiDocRoutes = [];
 const fileSuffix = '.md';
-const handleFolderUrl = __rootpath + '/routes/';
-const dir = getDirectoryList(handleFolderUrl);
+const handleFolderPath = '/routes/';
+
 // 获取文件夹列表
 function getDirectoryList(path) {
   return fs.readdirSync(path).filter(file => fs.statSync(`${path}/${file}`).isDirectory());
@@ -14,42 +14,39 @@ function getMdFilesName(path) {
   return fs.readdirSync(path).filter(file => file.endsWith(fileSuffix))
 }
 
-function setApiDocRoutes(dir, parentPath = '') {
-  while(dir.length) {
-    const directoryName = dir.shift();
-    const directoryPath = `${handleFolderUrl}${parentPath}${directoryName}`;
-    const subDirectoryList = getDirectoryList(directoryPath);
-    if (!subDirectoryList.length) {
-      const apiDocs = getMdFilesName(directoryPath);
+function getMdFiles(path, files = []) {
+  const directoryList = [...getDirectoryList(__rootPath + path)];
+  files.push(...getMdFilesName(__rootPath + path).map(file => path + file));
 
-      for (let name of apiDocs) {
-        const url = `${parentPath}/${directoryName}/${name.replace('.md', '')}.doc`;
-        const route = router.get(url, async (ctx, next) => {
-          const css = fs.readFileSync(__rootpath + '/public/stylesheets/api-doc.css', 'utf-8')
-          const data = fs.readFileSync(`${handleFolderUrl}${parentPath}/${directoryName}/${name}`, 'utf8');
+  for (let dir of directoryList) {
+    getMdFiles(`${path}${dir}/`, files)
+  }
 
-          ctx.type = 'text/html;charset=utf-8';
+  return files;
+}
+
+function setApiDocRoutes() {
+  const fileList = getMdFiles(handleFolderPath);
+
+  while(fileList.length) {
+    const file = fileList.shift();
+    const url = file.replace(handleFolderPath, '/').replace('.md', '.doc');
+
+    const route = router.get(url, async ctx => {
+      const css = fs.readFileSync(__rootPath + '/public/stylesheets/api-doc.css', 'utf-8');
+      const data = fs.readFileSync(__rootPath + file, 'utf-8');
+
+      ctx.type = 'text/html;charset=utf-8';
           ctx.body = `
           <html>
             <head><style>${css}</style></head>
             <body>${marked(data)}</body>
           </html>
           `
-        });
-        apiDocRoutes.push([route.routes(), route.allowedMethods()]);
-      }
-    } else {
-      setApiDocRoutes(subDirectoryList, `${parentPath}/${directoryName}`)
-    }
+    })
+    apiDocRoutes.push([route.routes(), route.allowedMethods()]);
   }
 }
-
-setApiDocRoutes(dir);
-
-// router.prefix('/user');
-// router.get('/exit.doc', async (ctx, next) => {
-//   ctx.type = 'text/html;charset=utf-8';
-//   ctx.body = '<html><body>123</body></html>'
-// })
+setApiDocRoutes();
 
 module.exports = apiDocRoutes;
