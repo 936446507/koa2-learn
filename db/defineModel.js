@@ -1,21 +1,11 @@
 const Sequelize = require('sequelize');
 const { sequelize } = require('./connect');
 
-const user = 'takashi';
-
 const defineModel = function(name, attributes) {
   const defaultAttr = {
     version: {
       type: Sequelize.BIGINT,
       allowNull: false
-    },
-    create_user: {
-      type: Sequelize.STRING,
-      defaultValue: user
-    },
-    updated_user: {
-      type: Sequelize.STRING,
-      defaultValue: user
     },
     create_at: {
       type: Sequelize.BIGINT(11),

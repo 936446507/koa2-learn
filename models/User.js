@@ -22,7 +22,7 @@ const User = defineModel('user', {
     type: Sequelize.BIGINT(11),
     defaultValue: 0
   },
-  sign_ad: {
+  sign_at: {
     type: Sequelize.BIGINT(11)
   }
 });
