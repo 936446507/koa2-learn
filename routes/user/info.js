@@ -1,6 +1,6 @@
 const router = require('koa-router')();
 const { User } = require(__rootPath + '/handleModel');
-const config = require(__rootPath +  '/public/javascripts/config');
+const config = require(__rootPath +  '/public/js/config');
 
 router.prefix('/user');
 

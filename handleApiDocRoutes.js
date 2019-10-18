@@ -37,12 +37,12 @@ function setApiDocRoutes() {
       const data = fs.readFileSync(__rootPath + file, 'utf-8');
 
       ctx.type = 'text/html;charset=utf-8';
-          ctx.body = `
-          <html>
-            <head><style>${css}</style></head>
-            <body>${marked(data)}</body>
-          </html>
-          `
+      ctx.body = `
+      <html>
+        <head><style>${css}</style></head>
+        <body>${marked(data)}</body>
+      </html>
+      `
     })
     apiDocRoutes.push([route.routes(), route.allowedMethods()]);
   }

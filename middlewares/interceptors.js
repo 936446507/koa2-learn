@@ -1,4 +1,4 @@
-const config = require('../public/javascripts/config');
+const config = require('../public/js/config');
 
 const allowApis = ['/user/login', '/user/register']
 

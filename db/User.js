@@ -1,8 +1,8 @@
 const model = require(__rootPath + '/handleModel');
-const config = require(__rootPath + '/public/javascripts/config');
-const bcrypt = require(__rootPath + '/public/javascripts/bcrypt');
-const commonStrategies = require(__rootPath + '/public/javascripts/commonStrategies');
-const Validator = require(__rootPath + '/public/javascripts/Validator');
+const config = require(__rootPath + '/public/js/config');
+const bcrypt = require(__rootPath + '/public/js/bcrypt');
+const commonStrategies = require(__rootPath + '/public/js/commonStrategies');
+const Validator = require(__rootPath + '/public/js/Validator');
 // 校验策略
 const strategies = {
   ...commonStrategies,
@@ -119,6 +119,7 @@ class User {
     return {
       error_code: config.SUCCESS,
       body: {
+        id: this.userData.id,
         username: this.userData.username
       }
     };
