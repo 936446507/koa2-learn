@@ -5,9 +5,10 @@ const config = require(__rootPath +  '/public/js/config');
 router.prefix('/user');
 
 router.get('/info', async (ctx, next) => {
-  const { username } = ctx.session.user;
+  const { id } = ctx.session.user;
+
   const info = await User.findOne({
-    where: { username },
+    where: { id },
     attributes: ['username']
   })
 

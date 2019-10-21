@@ -24,7 +24,7 @@
 ## 错误返回
 ```javascript
 {
-  error_code: > 0,
-  error_message: ''
+  error_code: 1014,
+  error_message: '今日已签到'
 }
 ```

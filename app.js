@@ -41,7 +41,7 @@ app.use(session({
   cookie: {
     domain: 'localhost',
     path: '/',
-    maxAge: 1000 * 3000,
+    maxAge: 1000 * 24 * 60 * 60,
     httpOnly: true,
     overwrite: false
   },

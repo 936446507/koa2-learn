@@ -2,7 +2,7 @@ class DateUtils {
   constructor(time = Date.now()) {
     this._time = time;
   }
-  getTodayRangeTime(timeArg) {
+  getDayRangeTime(timeArg) {
     const time =  timeArg || this._time;
     const oneDayTime = 24 * 60 * 60 * 1000;
     const date = new Date(time);
