@@ -1,7 +1,6 @@
 const router = require('koa-router')();
 const path = require('path');
 const Upload = require(__rootPath + '/static/js/upload');
-const config = require(__rootPath + '/static/js/config');
 
 router.prefix('/utils');
 
