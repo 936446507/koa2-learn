@@ -7,7 +7,7 @@ const user = new User();
 
 router.prefix('/user');
 
-router.post('/register', async (ctx, next) => {
+router.post('/register.json', async (ctx, next) => {
   const {
     username,
     password,

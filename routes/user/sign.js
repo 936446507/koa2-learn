@@ -7,7 +7,7 @@ const config = require(__rootPath + '/static/js/config');
 
 router.prefix('/user');
 
-router.post('/sign', async (ctx, next) => {
+router.post('/sign.json', async (ctx, next) => {
   const { id, username } = ctx.session.user;
   const now = Date.now();
   const oneDayTime = 24 * 60 * 60 * 1000;

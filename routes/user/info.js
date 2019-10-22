@@ -4,7 +4,7 @@ const config = require(__rootPath + '/static/js/config');
 
 router.prefix('/user');
 
-router.get('/info', async (ctx, next) => {
+router.get('/info.json', async (ctx, next) => {
   const { id } = ctx.session.user;
 
   const info = await User.findOne({

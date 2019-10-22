@@ -6,7 +6,7 @@ const user = new User();
 
 router.prefix('/user');
 
-router.post('/login', async (ctx, next) => {
+router.post('/login.json', async (ctx, next) => {
   const { username, password } = ctx.request.body;
 
   const data = await user.login({ username, password });

@@ -4,7 +4,7 @@ const Upload = require(__rootPath + '/static/js/upload');
 
 router.prefix('/utils');
 
-router.post('/upload_img', async (ctx, next) => {
+router.post('/upload_img.json', async (ctx, next) => {
   const { file_type: fileType = 'common' } = ctx.request.body;
   const serverFilePath = path.join(__rootPath, 'static/img');
   const upload = new Upload({
