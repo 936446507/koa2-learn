@@ -10,9 +10,8 @@ const Sign = defineModel('sign', {
   },
   uid: {
     type: Sequelize.BIGINT(11),
-    allowNull: false,
+    allowNull: false
   },
-  username: Sequelize.STRING(100),
   sign_at: {
     type: Sequelize.BIGINT(11)
   }

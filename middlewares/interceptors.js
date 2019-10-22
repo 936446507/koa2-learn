@@ -11,9 +11,7 @@ const interceptors = async (ctx, next) => {
     ctx.error_code = config.NO_LOGIN;
     ctx.error_message = 'no login!';
   } else {
-    ctx.request.body = Object.keys(request.query).length
-      ? request.query
-      : request.body;
+    ctx.request.body = Object.assign({}, request.query, request.body);
     await next();
   }
 };
