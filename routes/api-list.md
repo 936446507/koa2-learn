@@ -15,3 +15,4 @@
 /budget/record_type|POST|添加当月分类预算|Takashi
 /budget/record_list|GET|当月总预算与分类预算数据|Takashi
 /utils/rate|GET|汇率|Takashi
+/utils/upload_img|POST|上传图片|Takashi

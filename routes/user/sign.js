@@ -2,9 +2,8 @@ const router = require('koa-router')();
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const { User, Sign } = require(__rootPath + '/handleModel');
-const DateUtils = require(__rootPath + '/public/js/DateUtils');
-const config = require(__rootPath +  '/public/js/config');
-
+const DateUtils = require(__rootPath + '/static/js/DateUtils');
+const config = require(__rootPath + '/static/js/config');
 
 router.prefix('/user');
 
@@ -32,13 +31,15 @@ router.post('/sign', async (ctx, next) => {
       Object.assign(ctx, {
         error_code: config.USER_OPERATION_ERROR,
         error_message: '今日已签到'
-      })
+      });
       return false;
     }
     User.update(
       {
-        'cnt_sign': signAt >= todayRangeTime.start ?
-          Sequelize.literal('`cnt_sign` + 1') : 1
+        cnt_sign:
+          signAt >= todayRangeTime.start
+            ? Sequelize.literal('`cnt_sign` + 1')
+            : 1
       },
       { where: { id } }
     );
@@ -48,12 +49,12 @@ router.post('/sign', async (ctx, next) => {
     uid: id,
     username,
     sign_at: now
-  })
+  });
 
   Object.assign(ctx, {
     error_code: config.SUCCESS,
     body: {}
-  })
-})
+  });
+});
 
 module.exports = router;

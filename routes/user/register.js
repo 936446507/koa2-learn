@@ -1,7 +1,7 @@
 const router = require('koa-router')();
-const User = require(__rootPath + '/db/User');
-const config = require(__rootPath + '/public/js/config');
-// const Validator = require('../public/js/Validator');
+const User = require(__rootPath + '/static/js/User');
+const config = require(__rootPath + '/static/js/config');
+// const Validator = require('../static/js/Validator');
 
 const user = new User();
 
@@ -17,9 +17,9 @@ router.post('/register', async (ctx, next) => {
     username,
     password,
     confirmPassword
-  })
+  });
 
   Object.assign(ctx, data);
-})
+});
 
-module.exports = router
+module.exports = router;

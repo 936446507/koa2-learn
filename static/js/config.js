@@ -1,7 +1,9 @@
 // 通用错误
 exports.SUCCESS = 0;
+// 请求失败
+exports.REQUEST_ERROR = 1000;
 // 请求方式或路径错误
-exports.REQUEST_ERROR = 1001;
+exports.REQUEST_WAY_ERROR = 1001;
 // 参数为空错误
 exports.EMPTY_ERROR = 1002;
 // 数据库查询错误

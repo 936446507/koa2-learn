@@ -1,19 +1,15 @@
 const model = require(__rootPath + '/handleModel');
-const config = require(__rootPath + '/public/js/config');
-const bcrypt = require(__rootPath + '/public/js/bcrypt');
-const commonStrategies = require(__rootPath + '/public/js/commonStrategies');
-const Validator = require(__rootPath + '/public/js/Validator');
+const config = require(__rootPath + '/static/js/config');
+const bcrypt = require(__rootPath + '/static/js/bcrypt');
+const commonStrategies = require(__rootPath + '/static/js/commonStrategies');
+const Validator = require(__rootPath + '/static/js/Validator');
 // 校验策略
 const strategies = {
   ...commonStrategies,
   /*
    * checkType: exist,检查类型为存在用户名，存在则不返回错误
    */
-  async isExistName({
-    username,
-    checkType = 'exist',
-    error
-  }) {
+  async isExistName({ username, checkType = 'exist', error }) {
     this.userData = await this.query({
       username
     });
@@ -21,11 +17,7 @@ const strategies = {
     if (checkType !== 'exist' && this.userData) return error;
   },
 
-  async isCheckPassword({
-    username,
-    password,
-    error
-  }) {
+  async isCheckPassword({ username, password, error }) {
     this.userData = await this.query({
       username
     });
@@ -45,7 +37,8 @@ const strategies = {
 // 登录规则
 const loginRules = (self, username, password) => ({
   self,
-  rules: [{
+  rules: [
+    {
       strategy: 'isEmpty',
       value: username,
       errorCode: config.EMPTY_ERROR,
@@ -69,7 +62,8 @@ const loginRules = (self, username, password) => ({
 // 注册规则
 const registerRules = (self, username, password, confirmPassword) => ({
   self,
-  rules: [{
+  rules: [
+    {
       strategy: 'isExistName',
       username,
       checkType: 'noExist',
@@ -90,7 +84,7 @@ const registerRules = (self, username, password, confirmPassword) => ({
       errorMessage: '密码不一致'
     }
   ]
-})
+});
 
 const validator = new Validator(strategies);
 
@@ -100,10 +94,7 @@ class User {
     this.userData = null;
   }
   async login(params = {}) {
-    const {
-      username,
-      password
-    } = params;
+    const { username, password } = params;
     const self = this;
     validator.add(loginRules(self, username, password));
 
@@ -126,11 +117,7 @@ class User {
   }
 
   async register(params = {}) {
-    const {
-      username,
-      password,
-      confirmPassword
-    } = params;
+    const { username, password, confirmPassword } = params;
     const self = this;
 
     validator.add(registerRules(self, username, password, confirmPassword));
@@ -142,7 +129,7 @@ class User {
         error_message: info.errorMessage
       };
     }
-    params.password = bcrypt.encrypt(params.password)
+    params.password = bcrypt.encrypt(params.password);
     const userData = await this.create(params);
     return {
       error_code: config.SUCCESS,
@@ -155,7 +142,7 @@ class User {
   query(queryCondition) {
     return model.User.findOne({
       where: queryCondition
-    })
+    });
   }
   create(params) {
     return model.User.create(params);
